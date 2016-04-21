@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A89453B4-4CCA-4581-B452-76C1520F37B0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Onwo</RootNamespace>
+    <AssemblyName>Onwo</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=10.1.4.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.1.4\lib\net20\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AsyncAuto.cs" />
+    <Compile Include="Auto.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Collections\ComparerExtensions.cs" />
+    <Compile Include="Collections\DefaultComparers.cs" />
+    <Compile Include="Collections\IListExt.cs" />
+    <Compile Include="Collections\LazyObservableTree.cs" />
+    <Compile Include="Collections\ManagedDeepObservableCollection.cs" />
+    <Compile Include="Collections\MyEqualityComparer.cs" />
+    <Compile Include="Collections\MyObservableCollection.cs" />
+    <Compile Include="Collections\MyObservableSortedCollection.cs" />
+    <Compile Include="Collections\ObservableSortedCollection.cs" />
+    <Compile Include="Collections\ObservableSortedTree.cs" />
+    <Compile Include="Collections\Special\LazyDirectoryTree.cs" />
+    <Compile Include="Collections\Special\LinkedDirectoryTree.cs" />
+    <Compile Include="Collections\Special\LinkedDirectoryTree2.cs" />
+    <Compile Include="Collections\Special\LinkedLayTree.cs" />
+    <Compile Include="Collections\SyncedObservableCollection.cs" />
+    <Compile Include="ComponentModel\INotifyPropertyChangedWithValues.cs" />
+    <Compile Include="ComponentModel\ObservableCollectionExtensions.cs" />
+    <Compile Include="Controls\MessageBox.cs" />
+    <Compile Include="Controls\MessageBoxButton.cs" />
+    <Compile Include="Controls\MyDataGrid.cs" />
+    <Compile Include="Controls\MyFileGrid.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="Input\AsyncCommand.cs" />
+    <Compile Include="Input\AsyncCommandBase.cs" />
+    <Compile Include="Input\DelegateCommand.cs" />
+    <Compile Include="Input\IAsyncCommand.cs" />
+    <Compile Include="IO\DirectoryCompareResult.cs" />
+    <Compile Include="IO\DirectoryHelpers.cs" />
+    <Compile Include="IO\DirectoryInfoExtensions.cs" />
+    <Compile Include="IO\FileEx.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="MyLazy.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Threading\AsyncLazy.cs" />
+    <Compile Include="Threading\Tasks\IAwaitable.cs" />
+    <Compile Include="Threading\Tasks\IInitialiser.cs" />
+    <Compile Include="Threading\Tasks\INotifyTaskCompletion.cs" />
+    <Compile Include="Threading\Tasks\LazyNotifyTaskCompletion0.cs" />
+    <Compile Include="Threading\Tasks\LimitedConcurrencyLevelTaskScheduler.cs" />
+    <Compile Include="Threading\Tasks\NamedLazyTask.cs" />
+    <Compile Include="Threading\Tasks\NotifyTaskCompletion.cs" />
+    <Compile Include="Threading\Tasks\SchedulerExtensions.cs" />
+    <Compile Include="Threading\Tasks\TaskExtensions.cs" />
+    <Compile Include="Win32\Win32_DiskDrive.cs" />
+    <Compile Include="Win32\Win32_Partition.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
