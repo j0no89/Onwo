@@ -1,0 +1,1 @@
+Project for reimplimentation of Windowsd Explorer and various file copying and hasing functions
