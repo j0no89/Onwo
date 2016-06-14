@@ -17,5 +17,12 @@ namespace Onwo.ComponentModel
                 return lockObj;
             });
         }
+
+        public static object EnableCollectionSynchronisation<T>(this ObservableCollection<T> collection)
+        {
+            object lockObj = new object();
+            BindingOperations.EnableCollectionSynchronization(collection, lockObj);
+            return lockObj;
+        }
     }
 }
