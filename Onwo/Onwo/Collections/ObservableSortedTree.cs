@@ -3,17 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace Onwo.Collections
 {
+    
     public class ObservableSortedTree<T> : INotifyPropertyChanged, IEnumerable<ObservableSortedTree<T>>, IComparable, IComparable<ObservableSortedTree<T>>
     {
         #region Properties
-
+        /// <summary>
+        /// Gets the Depth of the current tree relative to the root
+        /// </summary>
         public int Depth => this.EnumerateAncestors().Count();
-
-
         /// <summary>
         /// Gets or sets the value of the current Tree. 
         /// Event = TreeValueChanged; Override = OnTreeValueChanged
@@ -117,7 +119,7 @@ namespace Onwo.Collections
             RootChanged?.Invoke(this, oldRoot);
         }
         /// <summary>
-        /// Gets or sets the the collection of child trees for the current tree
+        /// Gets or sets the collection of child trees for the current tree
         /// </summary>
         public ObservableSortedCollection<ObservableSortedTree<T>> Children
         {
@@ -215,8 +217,6 @@ namespace Onwo.Collections
         /// </summary>
         public bool HasChildren => _children != null && _children.Count > 0;
         #endregion
-
-
         #region Comparer
         public static MyLazy<IComparer<ObservableSortedTree<T>>> DefaultComparer = new MyLazy<IComparer<ObservableSortedTree<T>>>(
             () => Comparer<ObservableSortedTree<T>>.Default);
