@@ -5,25 +5,30 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using JetBrains.Annotations;
+using Onwo.Threading;
 using Onwo.Threading.Tasks;
 
 namespace Onwo.Input
 {
     public class AsyncCommand : AsyncCommandBase, INotifyPropertyChanged
     {
-        private readonly Func<CancellationToken, Task> _command;
-        private readonly CancelAsyncCommand _cancelCommand;
+        protected readonly Func<CancellationToken, PauseToken, Task> _command;
         private NotifyTaskCompletion _execution;
         //private NotifyTaskCompletion<TResult> _execution;
-        public AsyncCommand(Func<Task> command) : this(token => command())
+        public AsyncCommand(Func<Task> command) : this((cancel, pause) => command())
         {
         }
         public AsyncCommand(Func<CancellationToken, Task> command)
+            : this((cancel, pause) => command(cancel))
+        { }
+        public AsyncCommand(Func<CancellationToken, PauseToken, Task> command)
+            :base()
         {
             _command = command;
-            _cancelCommand = new CancelAsyncCommand();
             _execution=new NotifyTaskCompletion(Task.CompletedTask);
         }
+        
+
         public override bool CanExecute(object parameter)
         {
             return Execution == null || Execution.IsCompleted;
@@ -31,14 +36,14 @@ namespace Onwo.Input
         public override async Task ExecuteAsync(object parameter)
         {
             _cancelCommand.NotifyCommandStarting();
-            Execution = new NotifyTaskCompletion(_command(_cancelCommand.Token));
+            _pauseCommand.NotifyCommandStarting();
+            Execution = new NotifyTaskCompletion(_command(_cancelCommand.Token,_pauseCommand.Token));
             RaiseCanExecuteChanged();
             await Execution.TaskCompletion.ConfigureAwait(false);
             _cancelCommand.NotifyCommandFinished();
+            _pauseCommand.NotifyCommandFinished();
             RaiseCanExecuteChanged();
         }
-        public ICommand CancelCommand => _cancelCommand;
-
         public NotifyTaskCompletion Execution
         {
             get { return _execution; }
@@ -49,28 +54,23 @@ namespace Onwo.Input
                 OnPropertyChanged();
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
     public class AsyncCommand<TResult> : AsyncCommandBase, INotifyPropertyChanged
     {
-        private readonly Func<CancellationToken, Task<TResult>> _command;
-        private readonly CancelAsyncCommand _cancelCommand;
+        protected readonly Func<CancellationToken, PauseToken, Task<TResult>> _command;
         private NotifyTaskCompletion<TResult> _execution;
-        //private NotifyTaskCompletion<TResult> _execution;
-        public AsyncCommand(Func<Task<TResult>> command):this(token=>command())
+        public AsyncCommand(Func<Task<TResult>> command):this((cancel, pause) => command())
+
         {
         }
         public AsyncCommand(Func<CancellationToken, Task<TResult>> command)
+            :this((cancel,pause)=>command(cancel))
+        {
+            
+        }
+        public AsyncCommand(Func<CancellationToken, PauseToken, Task<TResult>> command)
         {
             _command = command;
-            _cancelCommand = new CancelAsyncCommand();
             _execution=new NotifyTaskCompletion<TResult>(Task.FromResult(default(TResult)));
         }
         public override bool CanExecute(object parameter)
@@ -80,14 +80,14 @@ namespace Onwo.Input
         public override async Task ExecuteAsync(object parameter)
         {
             _cancelCommand.NotifyCommandStarting();
-            Execution = new NotifyTaskCompletion<TResult>(_command(_cancelCommand.Token));
+            _pauseCommand.NotifyCommandStarting();
+            Execution = new NotifyTaskCompletion<TResult>(_command(_cancelCommand.Token,_pauseCommand.Token));
             RaiseCanExecuteChanged();
             await Execution.TaskCompletion.ConfigureAwait(false);
             _cancelCommand.NotifyCommandFinished();
+            _pauseCommand.NotifyCommandFinished();
             RaiseCanExecuteChanged();
         }
-        public ICommand CancelCommand => _cancelCommand;
-
         public NotifyTaskCompletion<TResult> Execution
         {
             get { return _execution; }
@@ -97,14 +97,6 @@ namespace Onwo.Input
                 _execution = value;
                 OnPropertyChanged();
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
